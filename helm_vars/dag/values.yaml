@@ -1,39 +1,39 @@
 destination:
   server: https://kubernetes.default.svc
 source:
-  repoURL: //dag.git
-  targetRevision: 
+  repoURL: http://gitea-127.0.0.1.sslip.io:30950/user-01/dag.git
+  targetRevision: main
 gitea:
   server:
-    outClusterURL: 
+    outClusterURL: http://gitea-127.0.0.1.sslip.io:30950
     inClusterURL: 
-  oAuthSecret: demo-oauth--secret
-  username: 
-  password: @123
+  oAuthSecret: demo-oauth-user-01-secret
+  username: user-01
+  password: user-01@123
 drone:
   docker:
     runner:
       insecureRegistries:
-        - ""
+        - "nexus.infra.svc.cluster.local"
   server:
     version: 0.6.0
-    host: 
+    host: http://drone-127.0.0.1.sslip.io:30980
     namespace: drone
     hostAliases:
-      - ip: 10.96.215.116
+      - ip: 10.96.86.217
         hostnames:
-          - 
+          - gitea-127.0.0.1.sslip.io
     admin:
-      enable: 
+      enable: true
 argocd:
   imageUpdater:
     versio: 0.8.0
     logLevel: debug
     registries:
-      - name: ""
-        prefix: ""
-        api_url: "http://"
+      - name: "nexus.infra.svc.cluster.local"
+        prefix: "nexus.infra.svc.cluster.local"
+        api_url: "http://nexus.infra.svc.cluster.local"
         default: true
         defaultns: example
         insecure: true
-        credentials: "secret:infra/#creds"
+        credentials: "secret:infra/nexus3-config-c29mh65cmb#creds"
